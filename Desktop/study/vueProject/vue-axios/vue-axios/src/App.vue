@@ -1,17 +1,32 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <h1>{{count}}</h1>
+  <button @click="handleAdd">+</button>
+  <img alt="Vue logo" src="./assets/logo.png" />
+  <HelloWorld msg="Hello Vue 3 + Vite" />
 </template>
 
-<script>
-import HelloWorld from './components/HelloWorld.vue'
 
-export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
+<script setup name="app">
+// This starter template is using Vue 3 <script setup> SFCs
+// Check out https://vuejs.org/api/sfc-script-setup.html#script-setup
+import HelloWorld from './components/HelloWorld.vue'
+import { onMounted, ref } from 'vue';
+import http from './utils/http'
+
+let count = ref(0)
+
+const handleAdd = ()=>{
+  count.value = count.value + 1
+  console.log(count.value);
 }
+
+onMounted(()=>{
+  console.log("mounted");
+  http.get('/api/test').then((res)=>{
+    console.log(res);
+  })
+})
+
 </script>
 
 <style>
